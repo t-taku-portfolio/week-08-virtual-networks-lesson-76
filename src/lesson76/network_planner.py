@@ -34,11 +34,13 @@ def audit_subnet_capacity(subnet_cidr: str) -> dict:
     The host IPs are shown when their number is less than 50.
     """
 
+    max_host_IPs = 50
+
     target_IPv4_obj = create_IPv4_obj(subnet_cidr)
     total_addresses_int = target_IPv4_obj.num_addresses
 
     hosts_IPs_list = []
-    if total_addresses_int < 50:
+    if total_addresses_int < max_host_IPs:
         hosts_IPs_list.extend(list(target_IPv4_obj.hosts()))
     else:
         hosts_IPs_list.append(target_IPv4_obj.network_address)
