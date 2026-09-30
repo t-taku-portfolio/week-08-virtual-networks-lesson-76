@@ -16,8 +16,8 @@ def calculate_subnets(vpc_cidr: str, prefix= 1) -> str:
     the_subnet_blocks = list(cidr_address_object.subnets(prefixlen_diff= prefix))
 
     the_subnet_blocks_str = []
-    for a in the_subnet_blocks:
-        the_subnet_blocks_str.append(a.with_prefixlen)
+    for network_obj in the_subnet_blocks:
+        the_subnet_blocks_str.append(network_obj.with_prefixlen)
 
     return the_subnet_blocks_str
 
