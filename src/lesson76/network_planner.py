@@ -20,11 +20,11 @@ def calculate_subnets(vpc_cidr: str, prefix= 1) -> list:
 
     the_subnet_blocks = list(create_IPv4_obj(vpc_cidr).subnets(prefixlen_diff= prefix))
 
-    the_subnet_blocks_str = []
+    the_subnet_blocks_with_prefixlen = []
     for network_obj in the_subnet_blocks:
-        the_subnet_blocks_str.append(network_obj.with_prefixlen)
+        the_subnet_blocks_with_prefixlen.append(network_obj.with_prefixlen)
 
-    return the_subnet_blocks_str
+    return the_subnet_blocks_with_prefixlen
 
 
 
