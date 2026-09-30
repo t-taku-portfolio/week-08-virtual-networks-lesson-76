@@ -15,11 +15,20 @@ def calculate_subnets(vpc_cidr: str, prefix= 1) -> str:
 
     the_subnet_blocks = list(cidr_address_object.subnets(prefixlen_diff= prefix))
 
-    return the_subnet_blocks
+    the_subnet_blocks_str = []
+    for a in the_subnet_blocks:
+        the_subnet_blocks_str.append(a.with_prefixlen)
+
+    return the_subnet_blocks_str
 
 
 
 def audit_subnet_capacity(subnet_cidr: str) -> str:
+    """
+    Returns total addresses, cloud provider reserved address (5), and usable host IP
+    """
+
+    
     return "the_return"
 
 def Validate_route_security(route_table: list) -> str:
