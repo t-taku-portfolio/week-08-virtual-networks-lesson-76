@@ -31,7 +31,7 @@ def calculate_subnets(vpc_cidr: str, prefix= 1) -> list:
 def audit_subnet_capacity(subnet_cidr: str) -> dict:
     """
     Returns total addresses, cloud provider reserved address (5), and usable host IP.
-    The host IPs are shown when their number is less than 50.
+    The host IPs are shown when their number is less than 64.
     """
 
     max_host_IPs = 64
@@ -57,9 +57,9 @@ def validate_route_security(route_table: list) -> str:
     """
 
     for x in route_table:
-        is_target_default_root = (create_IPv4_obj(x["addressPrefix"]).prefixlen == "0")
-        is_distination_igw = (x["nextHopType"] == "Internet")
-        if is_target_default_root and is_distination_igw:
+        is_target_default_root = (create_IPv4_obj(x["addressPrefix"]).prefixlen == 0)
+        is_destination_igw = (x["nextHopType"] == "Internet")
+        if is_target_default_root and is_destination_igw:
             return "PUBLIC_WARNING"
         
     return "SECURE_PRIVATE"
