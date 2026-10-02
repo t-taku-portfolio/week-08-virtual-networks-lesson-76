@@ -5,9 +5,9 @@ def create_IPv4_obj(vpc_cidr: str) -> object:
     try:
         cidr_address_object = ipaddress.IPv4Network(vpc_cidr)
     except ipaddress.AddressValueError:
-        print(f'[ERROR] the vpc cidr is not a valid IPv4 address: {vpc_cidr}')
+        raise ValueError(f'[ERROR] the vpc cidr is not a valid IPv4 address: {vpc_cidr}')
     except ipaddress.NetmaskValueError:
-        print(f'[ERROR] the mask is not valid for IPv4 address: {vpc_cidr}')
+        raise ValueError(f'[ERROR] the mask is not valid for IPv4 address: {vpc_cidr}')
 
     return cidr_address_object
 
