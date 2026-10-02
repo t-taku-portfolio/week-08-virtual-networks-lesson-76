@@ -1,4 +1,8 @@
+import datetime
 import ipaddress
+import json
+import zoneinfo
+from pathlib import Path
 
 
 def create_IPv4_obj(vpc_cidr: str) -> object:
@@ -63,6 +67,26 @@ def validate_route_security(route_table: list) -> str:
             return "PUBLIC_WARNING"
         
     return "SECURE_PRIVATE"
+
+
+
+def save_as_json(obj_dict: dict, target_dir: str) -> str:
+    JAPAN_TOKYO = zoneinfo.ZoneInfo("ASIA/TOKYO")
+    timestamp = datetime.datetime.now(JAPAN_TOKYO).strftime("%Y_%m_%d")
+    obj_dict["timestamp"] = timestamp
+
+    if target_dir is None:
+        target_dir = Path.cwd()
+    file_path = Path(target_dir) / "network_plan_report.json"
+
+    try:
+        with open(file_path, "w") as f:
+            json.dump(obj= obj_dict, fp= f, indent= 4)
+    except FileNotFoundError:
+        print("Target file is not found")
+        raise
+
+    return file_path
 
 
 
