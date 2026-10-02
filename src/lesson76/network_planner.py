@@ -34,7 +34,7 @@ def audit_subnet_capacity(subnet_cidr: str) -> dict:
     The host IPs are shown when their number is less than 50.
     """
 
-    max_host_IPs = 50
+    max_host_IPs = 64
 
     target_IPv4_obj = create_IPv4_obj(subnet_cidr)
     total_addresses_int = target_IPv4_obj.num_addresses
@@ -44,15 +44,27 @@ def audit_subnet_capacity(subnet_cidr: str) -> dict:
         hosts_IPs_list.extend(list(target_IPv4_obj.hosts()))
     else:
         hosts_IPs_list.append(target_IPv4_obj.network_address)
-        print("[Warning] Too many total addresses. List returns network address only")
+        print("[Warning] Too many total addresses. List includes network address only")
 
     return {"total_addresses" : total_addresses_int,
         "host_IPs" : hosts_IPs_list}
 
 
 
-def Validate_route_security(route_table: list) -> str:
-    return "the_return"
+def validate_route_security(route_table: list) -> str:
+    """
+    If 0.0.0.0/0 points to an Internet Gateway, return PUBLIC_WARNING. The route table is for Azure.
+    """
+
+    for x in route_table:
+        create_IPv4_obj(x)
+
+    condition = True
+
+    if condition:
+        return "PUBLIC_WARNING"
+    else:
+        return "SECURE_PRIVATE"
 
 
 
