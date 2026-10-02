@@ -57,14 +57,12 @@ def validate_route_security(route_table: list) -> str:
     """
 
     for x in route_table:
-        create_IPv4_obj(x)
-
-    condition = True
-
-    if condition:
-        return "PUBLIC_WARNING"
-    else:
-        return "SECURE_PRIVATE"
+        is_target_default_root = (create_IPv4_obj(x["addressPrefix"]).prefixlen == "0")
+        is_distination_igw = (x["nextHopType"] == "Internet")
+        if is_target_default_root and is_distination_igw:
+            return "PUBLIC_WARNING"
+        
+    return "SECURE_PRIVATE"
 
 
 
