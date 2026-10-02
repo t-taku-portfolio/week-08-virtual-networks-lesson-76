@@ -56,9 +56,9 @@ def validate_route_security(route_table: list) -> str:
     If 0.0.0.0/0 points to an Internet Gateway, return PUBLIC_WARNING. The route table is for Azure.
     """
 
-    for x in route_table:
-        is_target_default_root = (create_IPv4_obj(x["addressPrefix"]).prefixlen == 0)
-        is_destination_igw = (x["nextHopType"] == "Internet")
+    for properties in route_table:
+        is_target_default_root = (create_IPv4_obj(properties["addressPrefix"]).prefixlen == 0)
+        is_destination_igw = (properties["nextHopType"] == "Internet")
         if is_target_default_root and is_destination_igw:
             return "PUBLIC_WARNING"
         
