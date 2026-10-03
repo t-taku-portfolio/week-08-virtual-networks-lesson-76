@@ -1,5 +1,8 @@
 from lesson76 import network_planner
 
 
-def test_case1():
-    network_planner.create_IPv4_obj()
+def test_normal_case1():
+    """
+    Happy path 
+    """
+    network_planner.create_IPv4_obj("10.0.0.0/8")
