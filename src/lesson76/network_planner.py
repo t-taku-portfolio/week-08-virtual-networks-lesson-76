@@ -71,6 +71,8 @@ def validate_route_security(route_table: list) -> str:
 
 
 def save_as_json(obj_dict: dict, target_dir: str) -> str:
+    # save the execution results as a formatted JSON report: network_plan_report.json
+
     JAPAN_TOKYO = zoneinfo.ZoneInfo("ASIA/TOKYO")
     timestamp = datetime.datetime.now(JAPAN_TOKYO).strftime("%Y_%m_%d")
     obj_dict["timestamp"] = timestamp
@@ -90,8 +92,16 @@ def save_as_json(obj_dict: dict, target_dir: str) -> str:
 
 
 
-# save the execution results as a formatted JSON report: network_plan_report.json
+if __name__ == "__main__":
+    # run and verify, validate, save as JSON
 
-target_IPv4 = "10.0.0.0/8"
-print(calculate_subnets(target_IPv4))
-print(audit_subnet_capacity(target_IPv4))
+    cidr_IPv4 = "10.0.0.0/8"
+    the_rout_table = []
+
+    target_json = {
+        "subnets" : calculate_subnets(cidr_IPv4),
+        "subnet_capacity" : audit_subnet_capacity(cidr_IPv4),
+        "default_root_status" : validate_route_security(the_rout_table)
+    }
+
+    save_as_json(obj_dict= target_json)
