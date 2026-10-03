@@ -45,9 +45,10 @@ def audit_subnet_capacity(subnet_cidr: str) -> dict:
 
     hosts_IPs_list = []
     if total_addresses_int < max_host_IPs:
-        hosts_IPs_list.extend(list(target_IPv4_obj.hosts()))
+        for host_IPv4_obj in target_IPv4_obj.hosts():
+            hosts_IPs_list.append(str(host_IPv4_obj.with_prefixlen))
     else:
-        hosts_IPs_list.append(target_IPv4_obj.network_address)
+        hosts_IPs_list.append(str(target_IPv4_obj.network_address))
         print("[Warning] Too many total addresses. List includes network address only")
 
     return {"total_addresses" : total_addresses_int,
@@ -70,10 +71,10 @@ def validate_route_security(route_table: list) -> str:
 
 
 
-def save_as_json(obj_dict: dict, target_dir: str) -> str:
+def save_as_json(obj_dict: dict, target_dir= None) -> str:
     # save the execution results as a formatted JSON report: network_plan_report.json
 
-    JAPAN_TOKYO = zoneinfo.ZoneInfo("ASIA/TOKYO")
+    JAPAN_TOKYO = zoneinfo.ZoneInfo("Asia/Tokyo")
     timestamp = datetime.datetime.now(JAPAN_TOKYO).strftime("%Y_%m_%d")
     obj_dict["timestamp"] = timestamp
 
