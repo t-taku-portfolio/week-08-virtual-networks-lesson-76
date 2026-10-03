@@ -38,13 +38,13 @@ def audit_subnet_capacity(subnet_cidr: str) -> dict:
     The host IPs are shown when their number is less than 64.
     """
 
-    max_host_IPs = 64
+    max_host_IPs = 256 # show ips smaller than /24
 
     target_IPv4_obj = create_IPv4_obj(subnet_cidr)
     total_addresses_int = target_IPv4_obj.num_addresses
 
     hosts_IPs_list = []
-    if total_addresses_int < max_host_IPs:
+    if total_addresses_int <= max_host_IPs:
         for host_IPv4_obj in target_IPv4_obj.hosts():
             hosts_IPs_list.append(str(host_IPv4_obj.with_prefixlen))
     else:
